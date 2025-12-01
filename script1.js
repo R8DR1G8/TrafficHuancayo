@@ -1,3 +1,24 @@
+// 1. IMPORTACIONES DE FIREBASE (Usando CDN para que funcione en GitHub)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+// 2. CONFIGURACIÓN
+const firebaseConfig = {
+  apiKey: "AIzaSyCT2LpdYBtehgXtweJ4gUC80zl7DaM-EI8",
+  authDomain: "traffichuancayo.firebaseapp.com",
+  projectId: "traffichuancayo",
+  storageBucket: "traffichuancayo.firebasestorage.app",
+  messagingSenderId: "833467436838",
+  appId: "1:833467436838:web:1d0dbc1ffcbbd69b3ffbe7"
+};
+
+// 3. INICIALIZAR
+const appFirebase = initializeApp(firebaseConfig);
+const db = getFirestore(appFirebase);
+
+console.log("🔥 Firebase conectado dentro de script1.js");
+
+
 // --- DATOS HUANCAYO (Base de Conocimiento de Tráfico) ---
 const DATA_HUANCAYO = {
   "type": "FeatureCollection",
@@ -17,24 +38,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 class TrafficApp {
-  constructor() {
-    this.state = {
-      reports: JSON.parse(localStorage.getItem('th_reports_final') || '[]'),
-      heatOn: true,
-      routeStart: null,
-      routeEnd: null,
-      generatedRoutes: [] // Almacenará las rutas calculadas
-    };
-    
-    this.map = null;
-    this.routingControl = null;
-    this.routeLines = []; // Para guardar las líneas dibujadas y borrarlas
-    this.chartInstance = null;
+constructor() {
+  this.state = {
+    reports: JSON.parse(localStorage.getItem('th_reports_final') || '[]'),
+    heatOn: true,
+    routeStart: null,
+    routeEnd: null,
+    generatedRoutes: []
+  };
 
-    this.initMap();
-    this.initUI();
-    this.loadData();
-  }
+  this.map = null;
+  this.chartInstance = null;
+
+  this.initMap();
+  this.initUI();
+  this.loadData();
+  this.listenRealtimeReports(); // << 🔥 Se agrega aquí
+}
+
 
   initMap() {
     this.map = L.map('map', { zoomControl: false }).setView([-12.0680, -75.2100], 14);
@@ -65,6 +86,15 @@ class TrafficApp {
     this.renderSidebarList();
     this.updateStats();
   }
+// 🔥 Sincronización en tiempo real con Firebase
+listenRealtimeReports() {
+  onSnapshot(collection(db, "reportes"), (snapshot) => {
+    this.state.reports = snapshot.docs.map(d => d.data());
+    this.renderMapElements();
+    this.updateStats();
+    console.log("📡 Datos actualizados desde Firestore");
+  });
+}
 
   // --- LOGICA INTELIGENTE DE RUTAS ---
 
@@ -388,6 +418,7 @@ class TrafficApp {
   }
 
   // --- UI HELPERS ---
+  // --- UI HELPERS ---
   initUI() {
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => this.switchTab(btn.dataset.tab));
@@ -402,9 +433,10 @@ class TrafficApp {
     document.getElementById('btnLocate').addEventListener('click', () => {
        this.map.setView([-12.068, -75.210], 15);
     });
-    
+  
     document.getElementById('btnClearRoute').addEventListener('click', () => this.clearRoute());
 
+    // 🔥 Reportes con Firestore
     document.getElementById('reportForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -419,7 +451,6 @@ class TrafficApp {
         fecha: new Date().toISOString()
       };
 
-      // 🔥 Guardar en Firestore
       await addDoc(collection(db, "reportes"), reporte);
 
       this.state.reports.unshift(reporte);
@@ -430,7 +461,11 @@ class TrafficApp {
       this.updateStats();
       e.target.reset();
     });
+  }
 
+  // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  //   🔹 Aquí cerramos métodos y clase correctamente
+  // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   switchTab(tabId) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -440,7 +475,7 @@ class TrafficApp {
   }
 
   showToast(msg, type) {
-    const container = document.getElementById('toast-container');
+   const container = document.getElementById('toast-container');
     const t = document.createElement('div');
     t.className = 'toast';
     t.textContent = msg;
@@ -449,4 +484,5 @@ class TrafficApp {
     container.appendChild(t);
     setTimeout(() => t.remove(), 4000);
   }
-}
+
+  } // 🔥 cierre de class TrafficApp

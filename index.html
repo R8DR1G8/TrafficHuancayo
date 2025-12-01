@@ -157,26 +157,7 @@
     </div>
   </footer>
   <!-- Firebase Core -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, onSnapshot } 
-          from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
-    // 🔥 TU CONFIGURACIÓN REAL
-    const firebaseConfig = {
-      apiKey: "AIzaSyCT2LpdYBtehgXtweJ4gUC80zl7DaM-EI8",
-      authDomain: "traffichuancayo.firebaseapp.com",
-      projectId: "traffichuancayo",
-      storageBucket: "traffichuancayo.firebasestorage.app",
-      messagingSenderId: "833467436838",
-      appId: "1:833467436838:web:1d0dbc1ffcbbd69b3ffbe7"
-    };
-
-    // 🔥 Iniciar Firebase + Firestore
-    window.db = getFirestore(initializeApp(firebaseConfig));
-    console.log("🔥 Firebase conectado correctamente");
-  </script>
-
-  <script src="script1.js"></script>
+  <script type="module" src="script1.js"></script>
 </body>
 </html>
