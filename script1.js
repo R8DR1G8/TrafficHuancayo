@@ -405,21 +405,32 @@ class TrafficApp {
     
     document.getElementById('btnClearRoute').addEventListener('click', () => this.clearRoute());
 
-    document.getElementById('reportForm').addEventListener('submit', (e) => {
+    document.getElementById('reportForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const ubi = document.getElementById('r_ubicacion').value;
       const tipo = document.querySelector('input[name="tipo"]:checked').value;
       const desc = document.getElementById('r_desc').value;
-      
-      this.state.reports.push({ ubicacion: ubi, tipo, desc, lat: -12.068, lng: -75.210 });
+
+      const reporte = {
+        ubicacion: ubi,
+        tipo,
+        desc,
+        fecha: new Date().toISOString()
+      };
+
+      // 🔥 Guardar en Firestore
+      await addDoc(collection(db, "reportes"), reporte);
+
+      this.state.reports.unshift(reporte);
       localStorage.setItem('th_reports_final', JSON.stringify(this.state.reports));
-      
-      this.showToast('¡Gracias! Tu reporte mejora el algoritmo.', 'success');
+
+      this.showToast("📡 Reporte enviado a la nube con éxito", "success");
       this.renderMapElements();
       this.updateStats();
       e.target.reset();
     });
-  }
+
 
   switchTab(tabId) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
