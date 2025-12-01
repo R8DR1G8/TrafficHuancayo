@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type":"Feature", "properties": { "name":"Av. Ferrocarril & Jr. Ayacucho", "tipo":"congestion", "intensity":5, "desc":"Tráfico detenido" }, "geometry": { "type":"Point", "coordinates":[-75.2103,-12.0679]} },
+    { "type":"Feature", "properties": { "name":"Av. Ferrocarril & Av. Giráldez", "tipo":"congestion", "intensity":4, "desc":"Flujo lento" }, "geometry": { "type":"Point", "coordinates":[-75.2067,-12.0654]} },
+    { "type":"Feature", "properties": { "name":"Av. San Carlos & Calmell del Solar", "tipo":"accidente", "intensity":5, "desc":"Choque leve reportado" }, "geometry": { "type":"Point", "coordinates":[-75.2220,-12.0745]} },
+    { "type":"Feature", "properties": { "name":"Jr. Real & Jr. Loreto", "tipo":"paradero", "intensity":2, "desc":"Paradero formal" }, "geometry": { "type":"Point", "coordinates":[-75.2061,-12.0663]} },
+    { "type":"Feature", "properties": { "name":"Mercado Modelo", "tipo":"comercio", "intensity":4, "desc":"Zona de carga/descarga" }, "geometry": { "type":"Point", "coordinates":[-75.2084,-12.0672]} },
+    { "type":"Feature", "properties": { "name":"Terminal Terrestre", "tipo":"paradero", "intensity":3, "desc":"Salida de buses" }, "geometry": { "type":"Point", "coordinates":[-75.2267,-12.0768]} },
+    { "type":"Feature", "properties": { "name":"Parque Constitución", "tipo":"poi", "intensity":1, "desc":"Zona turística" }, "geometry": { "type":"Point", "coordinates":[-75.2059,-12.0659]} },
+    { "type":"Feature", "properties": { "name":"Av. Circunvalación & Jr. Arequipa", "tipo":"congestion", "intensity":4, "desc":"Semáforo malogrado" }, "geometry": { "type":"Point", "coordinates":[-75.2201,-12.0715]} },
+    { "type":"Feature", "properties": { "name":"Av. Mariscal Castilla", "tipo":"obras", "intensity":3, "desc":"Mantenimiento de vía" }, "geometry": { "type":"Point", "coordinates":[-75.2124,-12.0733]} },
+    { "type":"Feature", "properties": { "name":"Puente Comuneros", "tipo":"congestion", "intensity":5, "desc":"Cuello de botella" }, "geometry": { "type":"Point", "coordinates":[-75.2106,-12.0838]} }
+  ]
+}
